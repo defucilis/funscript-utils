@@ -1,14 +1,12 @@
 {
-  "name": "funreducer",
-  "version": "0.1.0",
+  "name": "funscript-utils",
+  "version": "0.1.1",
   "description": "A utility to halve the speed of .funscripts, for use with The Handy and other similar devices",
   "keywords": [
     "handy",
     "funscript",
     "the handy",
     "thehandy",
-    "buttplug",
-    "buttplug.io",
     "fleshlight",
     "launch",
     "kiiroo",
@@ -23,5 +21,13 @@
   "license": "MIT",
   "devDependencies": {
     "typescript": "^4.1.5"
+  },
+  "homepage": "https://github.com/defucilis/funscript-utils",
+  "bugs": {
+    "url": "https://github.com/defucilis/funscript-utils/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/defucilis/funscript-utils.git"
   }
 }

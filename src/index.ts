@@ -273,7 +273,7 @@ const getHalfSpeedGroupOld = (actionGroup: Action[]) => {
     return output;
 }
 
-const convertFunscript = (script: {actions: Action[]}, options: Options) => {
+export const getHalfSpeedScript = (script: {actions: Action[]}, options: Options) => {
     //onProgress("Loaded script with " + script.actions.length + " actions");
     const output = {...script};
     output.actions = [];
@@ -320,5 +320,3 @@ const convertFunscript = (script: {actions: Action[]}, options: Options) => {
     //onProgress("Slowed down action groups, new action count is " + output.actions.length);
     return output;
 }
-
-export default convertFunscript;
