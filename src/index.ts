@@ -287,25 +287,6 @@ export const getHalfSpeedScript = (script: {actions: Action[]}, options: Options
         ? getActionGroups(orderedActions.slice(1))
         : getActionGroups(orderedActions);
     const slowerGroups = actionGroups.map(group => getHalfSpeedGroup(group, options));
-    console.log(slowerGroups[0])
-
-    
-    /*
-    Basic idea: 
-    First, we simplify the script by turning it into a series of linear motions up and down (no velocity changes except when changing direction)
-        - If a point represents a change in direction, then we add it (and its position) to the new points list
-    */
-   /*
-   //remove any velocity changes that aren't changes in direction
-    const simpleActions = getSimpleActionsOld(script.actions);
-    onProgress("Simplified actions - new count is " + simpleActions.length);
-    //next, we break these simple points up into blocks, splitting them up when there's a gap of greater than five of the last interval
-    const actionGroups = getActionGroups(simpleActions);
-    onProgress("Split actions into " + actionGroups.length + " groups");
-
-    //now, we take each group of four points and turn them into two points, using the maximum and minimum positions for each
-    const slowerGroups = actionGroups.map(group => getHalfSpeedGroupOld(group));
-    */
 
     //finally, we combine these slower groups into the final actions array
     slowerGroups.forEach(group => {
@@ -313,6 +294,7 @@ export const getHalfSpeedScript = (script: {actions: Action[]}, options: Options
             output.actions.push(action);
         })
     });
+    
     //ensure that the durations match up by adding a pause at the end
     if(output.actions.slice(-1)[0].at !== script.actions.slice(-1)[0].at) {
         output.actions.push({at: script.actions.slice(-1)[0].at, pos: output.actions.slice(-1)[0].pos});
