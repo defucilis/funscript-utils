@@ -14,10 +14,9 @@ export interface Options {
 }
 export declare const getActionGroups: (actions: Action[]) => Action[][];
 export declare const getHalfSpeedGroup: (actionGroup: Action[], options: Options) => Action[];
-declare const convertFunscript: (script: {
+export declare const getHalfSpeedScript: (script: {
     actions: Action[];
 }, options: Options) => {
     actions: Action[];
 };
-export default convertFunscript;
 //# sourceMappingURL=index.d.ts.map

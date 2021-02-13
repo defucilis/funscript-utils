@@ -12,7 +12,7 @@
     "kiiroo",
     "onyx"
   ],
-  "main": "lib/index.ts",
+  "main": "lib/index.js",
   "types": "lib",
   "scripts": {
     "build": "tsc -p ."
