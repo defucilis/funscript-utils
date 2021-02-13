@@ -1,0 +1,27 @@
+{
+  "name": "funreducer",
+  "version": "0.1.0",
+  "description": "A utility to halve the speed of .funscripts, for use with The Handy and other similar devices",
+  "keywords": [
+    "handy",
+    "funscript",
+    "the handy",
+    "thehandy",
+    "buttplug",
+    "buttplug.io",
+    "fleshlight",
+    "launch",
+    "kiiroo",
+    "onyx"
+  ],
+  "main": "lib/index.ts",
+  "types": "lib",
+  "scripts": {
+    "build": "tsc -p ."
+  },
+  "author": "Defucilis",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^4.1.5"
+  }
+}
