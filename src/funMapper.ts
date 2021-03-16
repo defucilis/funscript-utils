@@ -123,4 +123,78 @@ const renderHeatmap = (canvas: HTMLCanvasElement, script: Funscript, options: He
     }
 }
 
+interface ActionsOptions {
+    clear?: boolean;
+    background?: string;
+    lineColor?: string;
+    lineWeight?: number;
+    startTime?: number;
+    duration?: number;
+    onlyTimes?: boolean;
+    onlyTimeColor?: string;
+    offset?: {x: number, y: number};
+}
+
+const renderActions = (canvas: HTMLCanvasElement, script: Funscript, options?: ActionsOptions) => {
+    const drawPath = (ctx: CanvasRenderingContext2D, funscript: Funscript, opt: ActionsOptions) => {
+        const position = opt.startTime || 0;
+        const duration = opt.duration || (script.metadata ? script.metadata.duration : 10);
+
+
+        const scriptDuration = funscript.actions.slice(-1)[0].at;
+        const min = Math.max(0, scriptDuration * position - duration * 0.5);
+        const max = min + duration
+
+        ctx.beginPath();
+        let first = true;
+        funscript.actions
+            .filter((a, i) => {
+                const prev = i === 0 ? a : funscript.actions[i-1];
+                const next = i === funscript.actions.length - 1 ? a : funscript.actions[i+1];
+                return next.at > min && prev.at < max;
+            })
+            .forEach(action => {
+                const x = width * (action.at - min) / duration + (opt && opt.offset ? opt.offset.x : 0);
+                const y = height - (action.pos / 100) * height + (opt && opt.offset ? opt.offset.y : 0);
+
+                if(first) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+
+                if(opt && opt.onlyTimes) ctx.fillRect(x - 1, 0, 2, height);
+
+                first = false;
+            })
+        if(!opt.onlyTimes) ctx.stroke();
+    }
+
+    const width = canvas.width;
+    const height = canvas.height;
+    const ctx = canvas.getContext('2d');
+    if(!ctx) return;
+
+    if(!options) options = {
+        clear: true,
+        background: "#000",
+        lineColor: "#FFF",
+        lineWeight: 3,
+        startTime: 0,
+        onlyTimes: false,
+        onlyTimeColor: "rgba(255,255,255,0.1)",
+        offset: {x: 0, y: 0}
+    };
+
+    if(options.clear) ctx.clearRect(0, 0, width, height);
+    
+    if(options.clear) {
+        ctx.fillStyle = options.background || "#000";
+        ctx.fillRect(0, 0, width, height);
+    }
+    
+    ctx.lineWidth = options.lineWeight || 3;
+
+    ctx.strokeStyle = options.lineColor || "#FFF";
+    ctx.fillStyle = options.onlyTimeColor || "rgba(255,255,255,0.1)"
+    drawPath(ctx, script, options);
+}
+
 export default renderHeatmap;
