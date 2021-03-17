@@ -123,7 +123,7 @@ export const renderHeatmap = (canvas: HTMLCanvasElement, script: Funscript, opti
     }
 }
 
-interface ActionsOptions {
+export interface ActionsOptions {
     clear?: boolean;
     background?: string;
     lineColor?: string;
