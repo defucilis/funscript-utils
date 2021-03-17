@@ -135,6 +135,17 @@ export interface ActionsOptions {
     offset?: {x: number, y: number};
 }
 
+const defaultActionsOptions: ActionsOptions = {
+    clear: true,
+    background: "#000",
+    lineColor: "#FFF",
+    lineWeight: 3,
+    startTime: 0,
+    onlyTimes: false,
+    onlyTimeColor: "rgba(255,255,255,0.1)",
+    offset: {x: 0, y: 0}
+}
+
 export const renderActions = (canvas: HTMLCanvasElement, script: Funscript, options?: ActionsOptions) => {
     const drawPath = (ctx: CanvasRenderingContext2D, funscript: Funscript, opt: ActionsOptions) => {
         const position = opt.startTime || 0;
@@ -172,17 +183,8 @@ export const renderActions = (canvas: HTMLCanvasElement, script: Funscript, opti
     const ctx = canvas.getContext('2d');
     if(!ctx) return;
 
-    if(!options) options = {
-        clear: true,
-        background: "#000",
-        lineColor: "#FFF",
-        lineWeight: 3,
-        startTime: 0,
-        onlyTimes: false,
-        onlyTimeColor: "rgba(255,255,255,0.1)",
-        offset: {x: 0, y: 0}
-    };
-
+    options = {...options, ...defaultActionsOptions};
+    
     if(options.clear) ctx.clearRect(0, 0, width, height);
     
     if(options.clear) {

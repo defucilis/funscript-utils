@@ -8,7 +8,7 @@ export interface HeatmapOptions {
     showStrokeLength?: boolean;
 }
 export declare const renderHeatmap: (canvas: HTMLCanvasElement, script: Funscript, options?: HeatmapOptions | undefined) => void;
-interface ActionsOptions {
+export interface ActionsOptions {
     clear?: boolean;
     background?: string;
     lineColor?: string;
