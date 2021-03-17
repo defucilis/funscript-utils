@@ -7,6 +7,21 @@ export interface HeatmapOptions {
     background?: string;
     showStrokeLength?: boolean;
 }
-declare const renderHeatmap: (canvas: HTMLCanvasElement, script: Funscript, options?: HeatmapOptions | undefined) => void;
-export default renderHeatmap;
+export declare const renderHeatmap: (canvas: HTMLCanvasElement, script: Funscript, options?: HeatmapOptions | undefined) => void;
+interface ActionsOptions {
+    clear?: boolean;
+    background?: string;
+    lineColor?: string;
+    lineWeight?: number;
+    startTime?: number;
+    duration?: number;
+    onlyTimes?: boolean;
+    onlyTimeColor?: string;
+    offset?: {
+        x: number;
+        y: number;
+    };
+}
+export declare const renderActions: (canvas: HTMLCanvasElement, script: Funscript, options?: ActionsOptions | undefined) => void;
+export {};
 //# sourceMappingURL=funMapper.d.ts.map

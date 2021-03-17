@@ -51,7 +51,7 @@ const defaultHeatmapOptions: HeatmapOptions = {
     showStrokeLength: true
 }
 
-const renderHeatmap = (canvas: HTMLCanvasElement, script: Funscript, options: HeatmapOptions | undefined = undefined) => {
+export const renderHeatmap = (canvas: HTMLCanvasElement, script: Funscript, options: HeatmapOptions | undefined = undefined) => {
     if(options) options = {...defaultHeatmapOptions, ...options};
     else options = {...defaultHeatmapOptions};
 
@@ -135,7 +135,7 @@ interface ActionsOptions {
     offset?: {x: number, y: number};
 }
 
-const renderActions = (canvas: HTMLCanvasElement, script: Funscript, options?: ActionsOptions) => {
+export const renderActions = (canvas: HTMLCanvasElement, script: Funscript, options?: ActionsOptions) => {
     const drawPath = (ctx: CanvasRenderingContext2D, funscript: Funscript, opt: ActionsOptions) => {
         const position = opt.startTime || 0;
         const duration = opt.duration || (script.metadata ? script.metadata.duration : 10);
@@ -196,5 +196,3 @@ const renderActions = (canvas: HTMLCanvasElement, script: Funscript, options?: A
     ctx.fillStyle = options.onlyTimeColor || "rgba(255,255,255,0.1)"
     drawPath(ctx, script, options);
 }
-
-export default renderHeatmap;
