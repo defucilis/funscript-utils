@@ -183,7 +183,7 @@ export const renderActions = (canvas: HTMLCanvasElement, script: Funscript, opti
     const ctx = canvas.getContext('2d');
     if(!ctx) return;
 
-    options = {...options, ...defaultActionsOptions};
+    options = {...defaultActionsOptions, ...options};
     
     if(options.clear) ctx.clearRect(0, 0, width, height);
     
