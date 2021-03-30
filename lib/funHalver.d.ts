@@ -8,6 +8,11 @@ export interface Options {
     debugMode?: boolean;
 }
 export declare const getActionGroups: (actions: Action[]) => Action[][];
-export declare const getHalfSpeedGroup: (actionGroup: Action[], options: Options) => Action[];
+export declare const getHalfSpeedGroup: (actionGroup: Action[], options: Options) => {
+    pos: number;
+    at: number;
+    subActions?: Action[] | undefined;
+    type?: "first" | "last" | "pause" | "prepause" | "apex" | undefined;
+}[];
 export declare const getHalfSpeedScript: (script: Funscript, options: Options) => Funscript;
 //# sourceMappingURL=funHalver.d.ts.map
