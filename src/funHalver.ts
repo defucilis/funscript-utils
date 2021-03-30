@@ -191,7 +191,7 @@ export const getHalfSpeedGroup = (actionGroup: Action[], options: Options) => {
         }
     }
 
-    return finalActions;
+    return finalActions.map(action => ({...action, pos: Math.round(action.pos), at: Math.round(action.at)}));
 }
 
 // eslint-disable-next-line no-unused-vars
