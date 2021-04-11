@@ -1,6 +1,6 @@
 export interface Funscript {
     actions: Action[];
-    metadata?: FunscriptMetadata;
+    fuMetadata?: FunscriptMetadata;
 }
 export interface FunscriptMetadata {
     duration: number;

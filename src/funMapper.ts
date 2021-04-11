@@ -149,7 +149,7 @@ const defaultActionsOptions: ActionsOptions = {
 export const renderActions = (canvas: HTMLCanvasElement, script: Funscript, options?: ActionsOptions) => {
     const drawPath = (ctx: CanvasRenderingContext2D, funscript: Funscript, opt: ActionsOptions) => {
         const position = opt.startTime || 0;
-        const duration = opt.duration || (script.metadata ? script.metadata.duration : 10);
+        const duration = opt.duration || (script.fuMetadata ? script.fuMetadata.duration : 10);
 
 
         const scriptDuration = funscript.actions.slice(-1)[0].at;

@@ -30,7 +30,7 @@ export const addFunscriptMetadata = (funscript: Funscript): Funscript => {
         return index === 0 ? acc : acc + getIntensity(output.actions[index - 1], output.actions[index]);
     }, 0) / (output.actions.length - 1);
 
-    output.metadata = {
+    output.fuMetadata = {
         duration,
         averageIntensity,
     }
