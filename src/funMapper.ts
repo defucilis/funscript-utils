@@ -46,9 +46,11 @@ export const getColor = (intensity: number) => {
 export interface HeatmapOptions {
     background?: string;
     showStrokeLength?: boolean;
+    gapThreshold?: number;
 }
 const defaultHeatmapOptions: HeatmapOptions = {
-    showStrokeLength: true
+    showStrokeLength: true,
+    gapThreshold: 5000,
 }
 
 export const renderHeatmap = (canvas: HTMLCanvasElement, script: Funscript, options: HeatmapOptions | undefined = undefined) => {
@@ -80,6 +82,18 @@ export const renderHeatmap = (canvas: HTMLCanvasElement, script: Funscript, opti
     const xWindowSize = 50;
     let lastX = 0;
     for(let i = 1; i < script.actions.length; i++) {
+        const x = Math.floor(msToX * script.actions[i].at);
+
+        if(options.gapThreshold && script.actions[i].at - script.actions[i-1].at > options.gapThreshold) {
+            colorAverageList = [];
+            intensityList = [];
+            posList = [];
+            yMaxList = [script.actions[i].pos];
+            yMinList = [script.actions[i].pos];
+            lastX = x;
+            continue;
+        }
+
         const intensity = getIntensity(script.actions[i - 1], script.actions[i]);
         intensityList.push(intensity);
         colorAverageList.push(getColor(intensity));
@@ -107,7 +121,6 @@ export const renderHeatmap = (canvas: HTMLCanvasElement, script: Funscript, opti
         if(yMaxList.length > yWindowSize) yMaxList = yMaxList.slice(1);
 
 
-        const x = Math.floor(msToX * script.actions[i].at);
 
         let y2 = height * (averageBottom / 100.0);
         let y1 = height * (averageTop / 100.0);
