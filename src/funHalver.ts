@@ -1,4 +1,5 @@
 import {Action, Funscript} from './types'
+import { getActionGroups } from './utils';
 
 const sign = (val: number) => {
     if(val === 0) return 0;
@@ -14,34 +15,7 @@ export interface Options {
     debugMode?: boolean;
 }
 
-export const getActionGroups = (actions: Action[]) => {
-    const actionGroups: Action[][] = [];
-    let index = -1;
-    let timeSinceLast = -1;
-    actions.forEach((action, i) => {
-        if(i === 0) {
-            actionGroups.push([action]);
-            index++;
-            return;
-        }
-        if(i === 1) {
-            actionGroups[index].push(action);
-            timeSinceLast = Math.max(250, action.at - actions[i-1].at);
-            return;
-        }
 
-        const newTimeSinceLast = action.at - actions[i-1].at;
-        if(newTimeSinceLast > 5 * timeSinceLast) {
-            actionGroups.push([action]);
-            index++;
-        } else {
-            actionGroups[index].push(action);
-        }
-
-        timeSinceLast = Math.max(250, newTimeSinceLast);
-    });
-    return actionGroups;
-}
 
 export const getHalfSpeedGroup = (actionGroup: Action[], options: Options) => {
     //Select 'apex' actions where the direction changes, and action pairs that represent a pause

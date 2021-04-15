@@ -1,5 +1,6 @@
-import { getIntensity } from "./funConverter";
+
 import { Action, Funscript } from "./types";
+import { getSpeed } from "./utils";
 
 //colors from Lucife
 type ColorGroup = number[];
@@ -27,7 +28,7 @@ const getAverageColor = (colors: ColorGroup[]) => {
 //function adapted from Lucife
 export const getColor = (intensity: number) => {
     //console.log(intensity);
-    const stepSize = 60;
+    const stepSize = 0.12;
     if(intensity <= 0) return heatmapColors[0];
     if(intensity > 5 * stepSize) return heatmapColors[6];
     intensity += stepSize / 2.0;
@@ -94,7 +95,7 @@ export const renderHeatmap = (canvas: HTMLCanvasElement, script: Funscript, opti
             continue;
         }
 
-        const intensity = getIntensity(script.actions[i - 1], script.actions[i]);
+        const intensity = getSpeed(script.actions[i - 1], script.actions[i]);
         intensityList.push(intensity);
         colorAverageList.push(getColor(intensity));
         posList.push(script.actions[i].pos);
