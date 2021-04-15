@@ -1,11 +1,20 @@
 import { Action, Funscript } from "./types";
 import { getSpeed } from "./utils";
 
-export const getFunscriptFromString = (funscript: string) => {
-    const script = JSON.parse(funscript);
+/**
+ * Converts a JSON string into a funscript object, computes metadata, and performs cleanup
+ * @param  {string} funscriptJson - JSON string to be converted into a funscript object
+ * @returns Converted funscript object
+ */
+export const getFunscriptFromString = (funscriptJson: string): Funscript => {
+    const script = JSON.parse(funscriptJson);
     return addFunscriptMetadata(script);
 }
-
+/**
+ * Adds metadata (average speed and duration) to a funscript, as well as make sure that its actions are in the right order
+ * @param  {Funscript} funscript - Funscript to be processed
+ * @returns Processed funscript with metadata
+ */
 export const addFunscriptMetadata = (funscript: Funscript): Funscript => {
     const output: Funscript = {...funscript};
 
@@ -23,7 +32,12 @@ export const addFunscriptMetadata = (funscript: Funscript): Funscript => {
     return output;
 }
 
-export const convertFunscriptToCsv = (funscript: string) => {
+/**
+ * Converts a funscript into a CSV blob suitable for upload to a Handy
+ * @param  {string} funscript - Funscript to be converted
+ * @returns Plaintext blob ready to be uploaded to a Handy
+ */
+export const convertFunscriptToCsv = (funscript: string): Blob => {
     const script = JSON.parse(funscript);
     const csv = script.actions.map((action: Action) => {
         return action.at + "," + action.pos;

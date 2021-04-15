@@ -13,8 +13,13 @@ export const heatmapColors: ColorGroup[] = [
     [147, 112, 219],
     [37, 22, 122],
 ]
-
-export const formatColor = (c: ColorGroup, alpha = 1) => {
+/**
+ * Converts a three-element RGB array of colors into a CSS rgb color string
+ * @param  {ColorGroup} c - Array of three color (RGB)
+ * @param  {number} alpha=1 - Optional alpha value
+ * @returns {string} CSS color string
+ */
+export const formatColor = (c: ColorGroup, alpha: number = 1): string => {
     return "rgb(" + c[0] + ", " + c[1] + ", " + c[2] + ", " + alpha + ")";
 }
 
@@ -25,8 +30,12 @@ const getAverageColor = (colors: ColorGroup[]) => {
     return [colorSum[0] / colors.length, colorSum[1] / colors.length, colorSum[2] / colors.length];   
 }
 
-//function adapted from Lucife
-export const getColor = (intensity: number) => {
+/**
+ * Converts a intensity/speed value into a heatmap color. Adapted from Lucifie's heatmap generation script.
+ * @param  {number} intensity - Speed value, in 0-100 movements per second
+ * @returns Three-element array of R, G and B color values (0-255)
+ */
+export const getColor = (intensity: number): ColorGroup => {
     //console.log(intensity);
     const stepSize = 120;
     if(intensity <= 0) return heatmapColors[0];
@@ -53,7 +62,12 @@ const defaultHeatmapOptions: HeatmapOptions = {
     showStrokeLength: true,
     gapThreshold: 5000,
 }
-
+/**
+ * Renders a heatmap into a provided HTML5 Canvas
+ * @param  {HTMLCanvasElement} canvas - HTML5 Canvas to be rendered into
+ * @param  {Funscript} script - Funscript to render the heatmap from
+ * @param  {HeatmapOptions|undefined=undefined} options - Rendering options
+ */
 export const renderHeatmap = (canvas: HTMLCanvasElement, script: Funscript, options: HeatmapOptions | undefined = undefined) => {
     if(options) options = {...defaultHeatmapOptions, ...options};
     else options = {...defaultHeatmapOptions};
@@ -159,7 +173,12 @@ const defaultActionsOptions: ActionsOptions = {
     onlyTimeColor: "rgba(255,255,255,0.1)",
     offset: {x: 0, y: 0}
 }
-
+/**
+ * Renders a funscript preview onto a provided HTML5 Canvas
+ * @param  {HTMLCanvasElement} canvas - HTML5 Canvas to be rendered into
+ * @param  {Funscript} script - Funscript to generate preview from
+ * @param  {ActionsOptions} options? - Rendering options
+ */
 export const renderActions = (canvas: HTMLCanvasElement, script: Funscript, options?: ActionsOptions) => {
     const drawPath = (ctx: CanvasRenderingContext2D, funscript: Funscript, opt: ActionsOptions) => {
         const position = opt.startTime || 0;

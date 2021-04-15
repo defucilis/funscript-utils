@@ -15,8 +15,11 @@ export interface Options {
     debugMode?: boolean;
 }
 
-
-
+/**
+ * Takes in a group of actions and creates a half-speed version of that group, without losing cadence
+ * @param  {Action[]} actionGroup - The group to halve the speed of
+ * @param  {Options} options - Options to change the behaviour of the speed-halving
+ */
 export const getHalfSpeedGroup = (actionGroup: Action[], options: Options) => {
     //Select 'apex' actions where the direction changes, and action pairs that represent a pause
     const keyActions: Action[] = [];
@@ -167,82 +170,13 @@ export const getHalfSpeedGroup = (actionGroup: Action[], options: Options) => {
 
     return finalActions.map(action => ({...action, pos: Math.round(action.pos), at: Math.round(action.at)}));
 }
-
-// eslint-disable-next-line no-unused-vars
-const getSimpleActionsOld = (actions: Action[]) => {
-    const simpleActions = [];
-    for(let i = 0; i < actions.length; i++) {
-        const action = actions[i];
-        if(i === 0) {
-            simpleActions.push(action);
-            continue;
-        }
-        if(i === actions.length - 1) {
-            simpleActions.push(action);
-            continue;
-        }
-        const lastAction = actions[i - 1];
-        const nextAction = actions[i + 1];
-
-        if(sign(action.pos - lastAction.pos) === sign(action.pos - nextAction.pos)) {
-            simpleActions.push(action);
-        }
-    }
-    return simpleActions;
-}
-
-// eslint-disable-next-line no-unused-vars
-const getHalfSpeedGroupOld = (actionGroup: Action[]) => {
-    if(actionGroup.length < 4) return [];
-    const output = [];
-
-    //first, we explicitly place a pos-99 marker projeted back one movement to ensure nice clean gaps between groups
-    output.push({
-        pos: 99,
-        at: actionGroup[0].at - (actionGroup[2].at - actionGroup[0].at)
-    });
-
-    for(let i = 0; i < actionGroup.length - 3; i += 4) {
-        const min = Math.min(actionGroup[i].pos, actionGroup[i+1].pos, actionGroup[i+2].pos, actionGroup[i+3].pos);
-        const max = Math.max(actionGroup[i].pos, actionGroup[i+1].pos, actionGroup[i+2].pos, actionGroup[i+3].pos);
-        //note - min and max are swapped here to make sure that the pattern begins on a downbeat and ends on an upbeat
-        output.push({
-            pos: min,
-            at: actionGroup[i].at
-        });
-        output.push({
-            pos: max,
-            at: actionGroup[i+2].at
-        });
-    }
-
-    //if there weren't an even four in the group (so there are beats left over), and the position isn't at the top,
-    //we add one more movement using the last interval time to move it to the top to prepare for the next group
-    if(actionGroup.length % 4 === 0) {
-        return output;
-    } else if(actionGroup.length % 4 === 3) {
-        const min = Math.min(actionGroup.slice(-3)[0].pos, actionGroup.slice(-2)[0].pos, actionGroup.slice(-1)[0].pos);
-        const max = Math.max(actionGroup.slice(-3)[0].pos, actionGroup.slice(-2)[0].pos, actionGroup.slice(-1)[0].pos);
-        output.push({
-            pos: min,
-            at: actionGroup.slice(-3)[0].at
-        });
-        output.push({
-            pos: max,
-            at: actionGroup.slice(-1)[0].at
-        });
-    }
-    if(output.slice(-1)[0].pos < 99) {
-        output.push({
-            pos: 99,
-            at: output.slice(-1)[0].at + (output.slice(-1)[0].at - output.slice(-3)[0].at)
-        });
-    }
-
-    return output;
-}
-
-export const getHalfSpeedScript = (script: Funscript, options: Options) => {
+/**
+ * Creates a half-speed version of a script without sacrificing cadence by removing every second action (ish)
+ * @param  {Funscript} script - The script to halve the speed of
+ * @param  {Options} options - Options to configure how the halving is done
+ * @returns The half-speed funscript
+ */
+export const getHalfSpeedScript = (script: Funscript, options: Options): Funscript => {
     //onProgress("Loaded script with " + script.actions.length + " actions");
     const output: Funscript = {...script};
     output.actions = [];

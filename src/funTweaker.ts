@@ -1,5 +1,12 @@
 import { Action, Funscript } from "./types"
+import { getActionGroups, getSpeed } from "./utils";
 
+/**
+ * Adds a fixed time offset to all actions in a funscript
+ * @param  {Funscript} funscript - The funscript to offset
+ * @param  {number} offset - The offset to apply, in milliseconds
+ * @returns The offset funscript
+ */
 export const getOffsetScript = (funscript: Funscript, offset: number): Funscript => {
     if(offset < -1 * funscript.actions.slice(-1)[0].at) return funscript;
     
@@ -7,7 +14,13 @@ export const getOffsetScript = (funscript: Funscript, offset: number): Funscript
         return {...action, at: action.at + offset}
     }).filter((action: Action) => action.at >= 0)};
 }
-
+/**
+ * Remaps all funscript positions to a newly defined range
+ * @param  {Funscript} funscript - The funscript to remap
+ * @param  {number} min - The new minimum position
+ * @param  {number} max - The new maximum position
+ * @returns The remapped funscript
+ */
 export const getRemappedScript = (funscript: Funscript, min: number, max: number): Funscript => {
     let currentMin = 100;
     let currentMax = 0;
@@ -60,7 +73,7 @@ export const getLimitedScript = (
         if(action.pos < lastAction.pos) {
             newPos = lastAction.pos - maxSpeedValue * (action.at - lastAction.at) / 1000
         } else {
-            newPos = lastAction.pos + maxPossibleSpeed * (action.at - lastAction.at)
+            newPos = lastAction.pos + maxSpeedValue * (action.at - lastAction.at) / 1000
         }
         newActions.push({...action, pos: newPos});
     }

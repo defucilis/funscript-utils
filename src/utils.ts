@@ -1,6 +1,11 @@
 import { Action } from "./types";
 
-export const getActionGroups = (actions: Action[]) => {
+/**
+ * Splits a funscript action array into sensible 'groups' of actions, separated by pauses
+ * @param  {Action[]} actions - Array of actions, from a funscript JSON object
+ * @returns Array of Action arrays - each array is one group
+ */
+export const getActionGroups = (actions: Action[]): Action[][] => {
     const actionGroups: Action[][] = [];
     let index = -1;
     let timeSinceLast = -1;
@@ -28,17 +33,24 @@ export const getActionGroups = (actions: Action[]) => {
     });
     return actionGroups;
 }
-
-export const getSpeed = (a1: Action, a2: Action) => {
+/**
+ * Takes in two actions and returns the speed value the transition between them represents.
+ * This value is measured in '0-100 movements per second'
+ * If the first action occurs after the second action, the two actions have their times swapped for the purposes of the calculation
+ * @param  {Action} firstAction - The action that occurs first
+ * @param  {Action} secondAction - The action that occurs second
+ * @returns {number} The speed value, in 0-100 movements per second
+ */
+export const getSpeed = (firstAction: Action, secondAction: Action): number => {
     try {
-        if(a2.at < a1.at) {
-            const temp = a2;
-            a2 = a1;
-            a1 = temp;
+        if(secondAction.at < firstAction.at) {
+            const temp = secondAction;
+            secondAction = firstAction;
+            firstAction = temp;
         }
-        return 1000 * (Math.abs(a2.pos - a1.pos) / Math.abs(a2.at - a1.at));
+        return 1000 * (Math.abs(secondAction.pos - firstAction.pos) / Math.abs(secondAction.at - firstAction.at));
     } catch(error) {
-        console.error("Failed on actions", a1, a2, error);
+        console.error("Failed on actions", firstAction, secondAction, error);
         return 0;
     }
 }
