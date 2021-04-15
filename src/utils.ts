@@ -36,7 +36,7 @@ export const getSpeed = (a1: Action, a2: Action) => {
             a2 = a1;
             a1 = temp;
         }
-        return Math.abs(a2.pos - a1.pos) / Math.abs(a2.at - a1.at);
+        return 1000 * (Math.abs(a2.pos - a1.pos) / Math.abs(a2.at - a1.at));
     } catch(error) {
         console.error("Failed on actions", a1, a2, error);
         return 0;

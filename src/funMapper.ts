@@ -28,7 +28,7 @@ const getAverageColor = (colors: ColorGroup[]) => {
 //function adapted from Lucife
 export const getColor = (intensity: number) => {
     //console.log(intensity);
-    const stepSize = 0.12;
+    const stepSize = 120;
     if(intensity <= 0) return heatmapColors[0];
     if(intensity > 5 * stepSize) return heatmapColors[6];
     intensity += stepSize / 2.0;

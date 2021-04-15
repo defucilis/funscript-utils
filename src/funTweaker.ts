@@ -33,33 +33,32 @@ export const getLimitedScript = (
 ): Funscript => {
     if(!funscript || !funscript.actions || funscript.actions.length === 0) return funscript;
 
-    let fullStrokeDuration: number = 0;
+    let maxSpeedValue: number = 0;
     switch(maxSpeed) {
         case "launch":
-            fullStrokeDuration = 265;
+            maxSpeedValue = 377;
             break;
         case "handy":
-            fullStrokeDuration = 231;
+            maxSpeedValue = 432;
             break;
         default:
-            fullStrokeDuration = maxSpeed;
+            maxSpeedValue = maxSpeed;
              break;
     }
-    const maxPossibleSpeed = 100 / fullStrokeDuration;
 
     const newActions: Action[] = [funscript.actions[0]];
     for(let i = 1; i < funscript.actions.length; i++) {
         const action = funscript.actions[i];
         const lastAction = newActions[i - 1];
         const actionSpeed = getSpeed(action, lastAction);
-        if(actionSpeed <= maxPossibleSpeed) {
+        if(actionSpeed <= maxSpeedValue) {
             newActions.push(action);
             continue;
         }
 
         let newPos = action.pos;
         if(action.pos < lastAction.pos) {
-            newPos = lastAction.pos - maxPossibleSpeed * (action.at - lastAction.at)
+            newPos = lastAction.pos - maxSpeedValue * (action.at - lastAction.at) / 1000
         } else {
             newPos = lastAction.pos + maxPossibleSpeed * (action.at - lastAction.at)
         }
