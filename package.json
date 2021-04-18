@@ -1,6 +1,6 @@
 {
   "name": "funscript-utils",
-  "version": "1.0.0",
+  "version": "1.1.1",
   "description": "A utility to halve the speed of .funscripts, for use with The Handy and other similar devices",
   "keywords": [
     "handy",

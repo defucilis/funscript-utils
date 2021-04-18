@@ -1,10 +1,20 @@
 export interface Funscript {
     actions: Action[];
-    fuMetadata?: FunscriptMetadata;
+    metadata?: FunscriptMetadata;
 }
 export interface FunscriptMetadata {
-    duration: number;
-    averageIntensity: number;
+    duration?: number;
+    average_speed?: number;
+    creator?: string;
+    description?: string;
+    license?: string;
+    notes?: string;
+    performers?: string[];
+    script_url?: string;
+    tags?: string[];
+    title?: string;
+    type?: string;
+    video_url?: string;
 }
 export interface Action {
     at: number;
