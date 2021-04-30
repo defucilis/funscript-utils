@@ -42,6 +42,8 @@ export const getActionGroups = (actions: Action[]): Action[][] => {
  * @returns {number} The speed value, in 0-100 movements per second
  */
 export const getSpeed = (firstAction: Action, secondAction: Action): number => {
+    if(!firstAction || !secondAction) return 0;
+    if(firstAction.at === secondAction.at) return 0;
     try {
         if(secondAction.at < firstAction.at) {
             const temp = secondAction;

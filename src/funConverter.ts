@@ -22,7 +22,9 @@ export const addFunscriptMetadata = (funscript: Funscript): Funscript => {
     const duration = output.actions.slice(-1)[0].at;
 
     const averageSpeed = output.actions.reduce((acc, action, index) => {
-        return index === 0 ? acc : acc + getSpeed(output.actions[index - 1], output.actions[index]);
+        if(index === 0) return acc;
+        const speed = getSpeed(output.actions[index - 1], output.actions[index]);
+        return acc + speed;
     }, 0) / (output.actions.length - 1);
 
     output.metadata = {

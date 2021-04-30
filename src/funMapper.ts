@@ -48,7 +48,7 @@ export const getColor = (intensity: number): ColorGroup => {
             Math.min(1.0, Math.max(0.0, (intensity - Math.floor(intensity / stepSize) * stepSize) / stepSize))
         );
     } catch(error) {
-        console.error("Failed on intensity", intensity, error);
+        //console.error("Failed on intensity", intensity, error);
         return [0, 0, 0];
     }
 }
