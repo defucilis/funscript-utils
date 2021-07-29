@@ -14,4 +14,8 @@ export declare const getActionGroups: (actions: Action[]) => Action[][];
  * @returns {number} The speed value, in 0-100 movements per second
  */
 export declare const getSpeed: (firstAction: Action, secondAction: Action) => number;
+/**
+ * Ensures that an action is within range and doesnt have any decimals
+ */
+export declare const roundAction: (action: Action) => Action;
 //# sourceMappingURL=utils.d.ts.map

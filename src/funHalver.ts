@@ -1,5 +1,5 @@
 import {Action, Funscript} from './types'
-import { getActionGroups } from './utils';
+import { getActionGroups, roundAction } from './utils';
 
 const sign = (val: number) => {
     if(val === 0) return 0;
@@ -203,5 +203,6 @@ export const getHalfSpeedScript = (script: Funscript, options: Options): Funscri
         output.actions.push({at: script.actions.slice(-1)[0].at, pos: output.actions.slice(-1)[0].pos});
     }
     //onProgress("Slowed down action groups, new action count is " + output.actions.length);
+    output.actions = output.actions.map(roundAction);
     return output;
 }

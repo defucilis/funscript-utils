@@ -1,5 +1,5 @@
 import { Action, Funscript } from "./types";
-import { getSpeed } from "./utils";
+import { getSpeed, roundAction } from "./utils";
 
 /**
  * Converts a JSON string into a funscript object, computes metadata, and performs cleanup
@@ -18,7 +18,7 @@ export const getFunscriptFromString = (funscriptJson: string): Funscript => {
 export const addFunscriptMetadata = (funscript: Funscript): Funscript => {
     const output: Funscript = {...funscript};
 
-    output.actions = output.actions.sort((a: Action, b: Action) => a.at - b.at);
+    output.actions = output.actions.sort((a: Action, b: Action) => a.at - b.at).map(roundAction);
     const duration = output.actions.slice(-1)[0].at;
 
     const averageSpeed = output.actions.reduce((acc, action, index) => {
@@ -43,7 +43,8 @@ export const addFunscriptMetadata = (funscript: Funscript): Funscript => {
 export const convertFunscriptToCsv = (funscript: string): Blob => {
     const script = JSON.parse(funscript);
     const csv = script.actions.map((action: Action) => {
-        return action.at + "," + action.pos;
+        const roundedAction = roundAction(action);
+        return roundedAction.at + "," + roundedAction.pos;
     }).join("\n");
     const csvBlob = new Blob([csv], {
         type: "text/plain"

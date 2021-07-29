@@ -56,3 +56,18 @@ export const getSpeed = (firstAction: Action, secondAction: Action): number => {
         return 0;
     }
 }
+
+/**
+ * Ensures that an action is within range and doesnt have any decimals
+ */
+export const roundAction = (action: Action): Action => {
+    const outputAction: Action = {
+        at: Math.max(0, Math.round(action.at)),
+        pos: Math.max(0, Math.min(100, Math.round(action.pos)))
+    };
+    if(action.subActions) {
+        outputAction.subActions = action.subActions.map(subAction => roundAction(subAction));
+    }
+    if(action.type) outputAction.type = action.type;
+    return outputAction;
+}

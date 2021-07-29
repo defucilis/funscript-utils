@@ -1,5 +1,5 @@
 import { Action, Funscript } from "./types"
-import { getActionGroups, getSpeed } from "./utils";
+import { getActionGroups, getSpeed, roundAction } from "./utils";
 
 /**
  * Adds a fixed time offset to all actions in a funscript
@@ -12,7 +12,7 @@ export const getOffsetScript = (funscript: Funscript, offset: number): Funscript
     
     return {...funscript, actions: funscript.actions.map((action: Action) => {
         return {...action, at: action.at + offset}
-    }).filter((action: Action) => action.at >= 0)};
+    }).filter((action: Action) => action.at >= 0).map(roundAction)};
 }
 /**
  * Remaps all funscript positions to a newly defined range
@@ -31,8 +31,8 @@ export const getRemappedScript = (funscript: Funscript, min: number, max: number
 
     return {...funscript, actions: funscript.actions.map(action => {
         const newPos = min + ((action.pos - currentMin) / (currentMax - currentMin)) * (max - min);
-        return {...action, pos: Math.max(0, Math.min(100, Math.round(newPos)))}
-    })};
+        return {...action, pos: newPos};
+    }).map(roundAction)};
 }
 /**
  * Limits a funscript's position values to ensure that it doesn't exceed a given maximum speed value
@@ -77,5 +77,5 @@ export const getLimitedScript = (
         }
         newActions.push({...action, pos: newPos});
     }
-    return {...funscript, actions: newActions};
+    return {...funscript, actions: newActions.map(roundAction)};
 }
